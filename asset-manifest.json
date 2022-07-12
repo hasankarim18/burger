@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/burger/static/css/main.6c08a11c.css",
-    "main.js": "/burger/static/js/main.9bbbb686.js",
+    "main.js": "/burger/static/js/main.84f14fc6.js",
     "static/media/burgert.png": "/burger/static/media/burgert.1478eff87a9735cf2f2d.png",
     "static/media/cheese.png": "/burger/static/media/cheese.6bf4843b2ef79b7c6104.png",
     "static/media/top.png": "/burger/static/media/top.efd53d9611a4b1d5c274.png",
     "index.html": "/burger/index.html",
     "main.6c08a11c.css.map": "/burger/static/css/main.6c08a11c.css.map",
-    "main.9bbbb686.js.map": "/burger/static/js/main.9bbbb686.js.map"
+    "main.84f14fc6.js.map": "/burger/static/js/main.84f14fc6.js.map"
   },
   "entrypoints": [
     "static/css/main.6c08a11c.css",
-    "static/js/main.9bbbb686.js"
+    "static/js/main.84f14fc6.js"
   ]
 }
