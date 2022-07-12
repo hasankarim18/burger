@@ -5,11 +5,13 @@ import Footer from './Footer/Footer'
 
 const Main = (props) => {
     return (
-        <div>
+        <React.Fragment>
             <Header />
-            <BurgerBuilder />
+            <div className="container">
+                <BurgerBuilder />
+            </div>
             <Footer />
-        </div>
+        </React.Fragment>
     )
 }
 
