@@ -2,14 +2,17 @@
 import './App.css';
 import Main from './Components/Main';
 import { HashRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
 
 function App() {
   return (
     <div className="App">
-      <HashRouter >
-        <Main />
-      </HashRouter>
-
+      <Provider store={store} >
+        <HashRouter >
+          <Main />
+        </HashRouter>
+      </Provider>
     </div>
   );
 }
