@@ -3,6 +3,7 @@ import { ModalBody, ModalHeader, Button, Modal, ModalFooter } from 'reactstrap'
 import Burger from './Burger/Burger'
 import Controls from './Controls/Controls '
 import Summary from './Summary/Summary'
+import { NavLink } from 'react-router-dom'
 
 
 const INGREDIENT_PRICES = {
@@ -80,7 +81,9 @@ export class BurgerBuilder extends Component {
         })
     }
 
-
+    componentDidMount() {
+        console.log(this.props)
+    }
 
     render() {
         return (
@@ -110,7 +113,7 @@ export class BurgerBuilder extends Component {
                         <h5>Total Price: {this.state.totalPrice.toFixed(0)}/- BDT</h5>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="success" > Continue to checkout </Button>
+                        <NavLink className="btn btn-success" to="/checkout" > Continue to checkout </NavLink>
                         <Button color="secondary" onClick={this.toggleModal} > Cancle </Button>
                     </ModalFooter>
                 </Modal>

@@ -5,12 +5,12 @@ import {
     NavbarToggler,
     NavbarBrand,
     Nav,
-    NavItem,
-    NavLink,
+    NavItem
 
 } from 'reactstrap';
+import { NavLink } from 'react-router-dom'
 
-import classes from './Navigation.module.css'
+import './Navigation.css'
 import Logo from '../../assets/burgert.png'
 
 class Navigation extends React.Component {
@@ -35,7 +35,7 @@ class Navigation extends React.Component {
                         backgroundColor: '#D70F64',
                         color: '#fff'
                     }}
-                    className={`${classes.navigation} container`}
+                    className={`navigation container`}
                     expand="md">
                     <NavbarBrand href="/">
                         <img width="150px" src={Logo} alt="Burger Builder" />
@@ -43,11 +43,14 @@ class Navigation extends React.Component {
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse className="justify-content-end" isOpen={this.state.isOpen} navbar>
                         <Nav className="mr-auto" navbar>
-                            <NavItem>
-                                <NavLink href="/Home">Home</NavLink>
+                            <NavItem className='header_link' >
+                                <NavLink to="/">Home</NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink href="/">GitHub</NavLink>
+                            <NavItem className='header_link'>
+                                <NavLink to="/orders">Orders</NavLink>
+                            </NavItem>
+                            <NavItem className='header_link'>
+                                <NavLink to="/checkout">Checkout</NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>
