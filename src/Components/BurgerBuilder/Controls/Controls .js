@@ -16,8 +16,12 @@ const BuildControl = props => {
                 <h5>{props.label}:</h5>
             </div>
             <div>
-                <button className="btn-danger btn m-2">Less</button>
-                <button className="btn-success btn m-2">More</button>
+                <button
+                    onClick={props.remove}
+                    className="btn-danger btn m-2">Less</button>
+                <button
+                    onClick={props.added}
+                    className="btn-success btn m-2">More</button>
             </div>
 
         </div>
@@ -44,6 +48,8 @@ const Controls = (props) => {
                             label={item.label}
                             type={item.type}
                             key={Math.random()}
+                            added={() => props.added(item.type)}
+                            remove={() => props.remove(item.type)}
                         />
                     })
                 }
