@@ -1,0 +1,7 @@
+.order_now {
+    background-color: #D70F64 !important;
+}
+
+.order_now.disabled {
+    background-color: grey !important;
+}

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Card, CardBody, CardFooter, CardHeader, Button, Modal, ModalBody, ModalFooter } from 'reactstrap'
-
+import { Card, CardBody, CardFooter, CardHeader, Button } from 'reactstrap'
+import './Control.css'
 
 
 const controls = [
@@ -60,6 +60,7 @@ const Controls = (props) => {
 
             </CardFooter>
             <Button
+                className="order_now"
                 disabled={!props.purchasable}
                 onClick={props.toggleModal}  >Order Now</Button>
         </Card>
