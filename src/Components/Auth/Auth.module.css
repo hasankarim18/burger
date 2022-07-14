@@ -37,3 +37,21 @@
     color: #D70F64;
     cursor: pointer;
 }
+
+.signup {
+    background-color: #D70F64;
+    color: #fff;
+    box-shadow: none;
+    outline: none;
+    padding: 15px 20px;
+    width: 100%;
+    display: inline-block;
+    border: none;
+    margin: 10px 0px;
+    border-radius: 10px;
+}
+
+.signup:focus {
+    box-shadow: none;
+    outline: none;
+}

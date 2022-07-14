@@ -29,26 +29,10 @@ export class Orders extends Component {
 
 
     }
-    componentDidUpdate() {
-        console.log(this.props.orderLoadingFailed)
-    }
+
 
     render() {
         let orders = null
-        // if (this.props.orderList.length === 0) {
-        //     orders = <Alert> No rders to show </Alert>
-        // } else if (this.props.orderLoadingFailed === true) {
-        //     orders = <Alert color="warning" > Something went wrong! </Alert>
-        // }
-        // else {
-        //     orders = this.props.orderList.map(item => {
-        //         return <Order
-        //             order={item}
-        //             key={item.id}
-        //         />
-        //     })
-        // }
-
 
         if (this.props.orderLoadingFailed === true) {
             orders = <Alert color="warning" > Something went wrong! </Alert>
