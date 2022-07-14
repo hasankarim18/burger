@@ -14,6 +14,14 @@ export const authSuccess = (token, userId) => {
 }
 
 
+export const authLoading = (isLoading) => {
+    return {
+        type: actionTypes.AUTH_LOADING,
+        payload: isLoading
+    }
+}
+
+
 export const auth = (email, password, mode) => dispatch => {
     const authData = {
         email: email,
@@ -29,9 +37,11 @@ export const auth = (email, password, mode) => dispatch => {
         auth_url = sign_in
     }
 
+    dispatch(authLoading(true))
 
     axios.post(auth_url + api_key, authData)
         .then(res => {
+            dispatch(authLoading(false))
             if (res.status === 200) {
 
                 dispatch(authSuccess(res.data.idToken, res.data.localId))
@@ -43,7 +53,9 @@ export const auth = (email, password, mode) => dispatch => {
                 localStorage.setItem('expirationTime', expirationTime)
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            dispatch(authLoading(false))
+        })
 }
 
 

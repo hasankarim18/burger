@@ -24,7 +24,9 @@ const initialState = {
     placeOrder: false,
     placeOrderFailed: false,
     token: null,
-    userId: null
+    userId: null,
+    authLoading: false,
+    authFailedMsg: null
 
 }
 
@@ -32,8 +34,24 @@ export const Reducer = (state = initialState, action) => {
     // Add ingredients
     const addIngredients = [...state.ingredients]
     switch (action.type) {
+        case actionTypes.AUTH_LOADING:
+            return {
+                ...state,
+                authLoading: action.payload
+            }
+        case actionTypes.AUTH_SUCCESS:
+            return {
+                ...state,
+                userId: action.payload.userId,
+                token: action.payload.token
+            }
+        case actionTypes.AUTH_LOGOUT:
+            return {
+                ...state,
+                token: null,
+                userId: null
+            }
         case actionTypes.ADD_INGREDIENT:
-
             const newPrice = state.totalPrice + state.prices[action.payload]
 
             for (let item of addIngredients) {
@@ -133,18 +151,7 @@ export const Reducer = (state = initialState, action) => {
                 placeOrder: false,
                 placeOrderFailed: true
             }
-        case actionTypes.AUTH_SUCCESS:
-            return {
-                ...state,
-                userId: action.payload.userId,
-                token: action.payload.token
-            }
-        case actionTypes.AUTH_LOGOUT:
-            return {
-                ...state,
-                token: null,
-                userId: null
-            }
+
         default:
             return state
     }

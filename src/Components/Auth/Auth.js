@@ -5,10 +5,13 @@ import { Label, Alert } from 'reactstrap';
 import { auth } from '../../redux/authActionCreators';
 import { connect } from 'react-redux'
 import { useNavigate } from "react-router-dom";
+import Spinner from '../Spinner/Spinner'
 
 const mapStateToProps = state => {
     return {
-        token: state.token
+        token: state.token,
+        authLoading: state.authLoading,
+        authFailedMsg: state.authFailedMsg
     }
 }
 
@@ -78,7 +81,6 @@ const Auth = (props) => {
         },
         validate,
         onSubmit: values => {
-
             props.auth(values.email, values.password, mode)
         }
     })
@@ -94,93 +96,99 @@ const Auth = (props) => {
 
     }
 
+    let form = null
 
+    if (props.authLoading) {
+        form = <Spinner />
+    } else {
+        form = <div className="col-12 col-sm-10 col-md-7 pt-5 text-start" >
+            <div>
+                <button onClick={modeChange} className={`${classes.signup}`} >
+                    Switch to {mode === 'SignUp' ? 'Login' : 'SignUp'}
+                </button>
+            </div>
+            <form onSubmit={authForm.handleSubmit}>
+                <Label className={`${classes.label}`} htmlFor="email">Email Address</Label>
+                <input
+                    className="form-control"
+                    id="email"
+                    name="email"
+                    type="email"
+                    onChange={authForm.handleChange}
+                    value={authForm.values.email}
+                    placeholder="Your Eamil"
+
+                />
+                {authForm.errors.email ? <Alert color="warning" > {authForm.errors.email}  </Alert> : ''}
+                <br />
+                <Label className={`${classes.label}`} htmlFor='password'>Password </Label>
+                <input
+                    id="password"
+                    className="form-control"
+                    name='password'
+                    onChange={authForm.handleChange}
+                    value={authForm.values.password}
+                    type={!showPassword ? 'password' : 'text'}
+                    placeholder="Password must be 6 charedter long"
+                />
+
+                <input
+                    style={{ dispaly: "inline-block", margin: "2px" }}
+                    id="showPassword"
+                    onClick={showPasswordHandler} type="checkbox" />
+                <label
+                    style={{ dispaly: "inline-block", margin: "2px" }}
+                    htmlFor='showPassword'> Show password</label>
+
+                {authForm.errors.password ? <Alert color="warning" > {authForm.errors.password}  </Alert> : ''}
+                <br /> <br />
+                {
+                    mode === 'SignUp' ?
+
+                        <div>
+                            <Label className={`${classes.label}`} htmlFor='confirmPassword'> Confirm Password  </Label>
+                            <input
+                                id="confirmPassword"
+                                className="form-control"
+                                name='consfirmPassword'
+                                onChange={authForm.handleChange}
+                                value={authForm.values.consfirmPassword}
+                                type={!showConfirmPassword ? 'password' : 'text'}
+                                placeholder="Confirm password"
+                            />
+                            <input
+                                style={{ dispaly: "inline-block", margin: "2px" }}
+                                id="showConfirmPassword"
+                                onClick={showConfirmPasswordHandler}
+                                type="checkbox" />
+
+                            <label
+                                style={{ dispaly: "inline-block", margin: "2px" }}
+                                htmlFor='showConfirmPassword'>Show Confirm password</label>
+                            {authForm.errors.consfirmPassword ? <Alert color="warning" > {authForm.errors.consfirmPassword}  </Alert> : ''}
+                        </div>
+                        : ''
+                }
+
+
+
+                <br /> <br />
+                <div className="text-start" >
+                    <button
+                        className={`${classes.button} btn`}
+                        type="submit">
+                        {mode === 'SignUp' ? <span>SignUp</span> : <span>Login</span>}
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    }
 
 
     return (
         <div className="row justify-content-center">
-            <div className="col-12 col-sm-10 col-md-7 pt-5 text-start" >
-                <div>
-                    <button onClick={modeChange} className={`${classes.signup}`} >
-                        Switch to {mode === 'SignUp' ? 'Login' : 'SignUp'}
-                    </button>
-                </div>
-                <form onSubmit={authForm.handleSubmit}>
-                    <Label className={`${classes.label}`} htmlFor="email">Email Address</Label>
-                    <input
-                        className="form-control"
-                        id="email"
-                        name="email"
-                        type="email"
-                        onChange={authForm.handleChange}
-                        value={authForm.values.email}
-                        placeholder="Your Eamil"
-
-                    />
-                    {authForm.errors.email ? <Alert color="warning" > {authForm.errors.email}  </Alert> : ''}
-                    <br />
-                    <Label className={`${classes.label}`} htmlFor='password'>Password </Label>
-                    <input
-                        id="password"
-                        className="form-control"
-                        name='password'
-                        onChange={authForm.handleChange}
-                        value={authForm.values.password}
-                        type={!showPassword ? 'password' : 'text'}
-                        placeholder="Password must be 6 charedter long"
-                    />
-
-                    <input
-                        style={{ dispaly: "inline-block", margin: "2px" }}
-                        id="showPassword"
-                        onClick={showPasswordHandler} type="checkbox" />
-                    <label
-                        style={{ dispaly: "inline-block", margin: "2px" }}
-                        htmlFor='showPassword'> Show password</label>
-
-                    {authForm.errors.password ? <Alert color="warning" > {authForm.errors.password}  </Alert> : ''}
-                    <br /> <br />
-                    {
-                        mode === 'SignUp' ?
-
-                            <div>
-                                <Label className={`${classes.label}`} htmlFor='confirmPassword'> Confirm Password  </Label>
-                                <input
-                                    id="confirmPassword"
-                                    className="form-control"
-                                    name='consfirmPassword'
-                                    onChange={authForm.handleChange}
-                                    value={authForm.values.consfirmPassword}
-                                    type={!showConfirmPassword ? 'password' : 'text'}
-                                    placeholder="Confirm password"
-                                />
-                                <input
-                                    style={{ dispaly: "inline-block", margin: "2px" }}
-                                    id="showConfirmPassword"
-                                    onClick={showConfirmPasswordHandler}
-                                    type="checkbox" />
-
-                                <label
-                                    style={{ dispaly: "inline-block", margin: "2px" }}
-                                    htmlFor='showConfirmPassword'>Show Confirm password</label>
-                                {authForm.errors.consfirmPassword ? <Alert color="warning" > {authForm.errors.consfirmPassword}  </Alert> : ''}
-                            </div>
-                            : ''
-                    }
-
-
-
-                    <br /> <br />
-                    <div className="text-start" >
-                        <button
-                            className={`${classes.button} btn`}
-                            type="submit">
-                            {mode === 'SignUp' ? <span>SignUp</span> : <span>Login</span>}
-                        </button>
-                    </div>
-
-                </form>
-            </div>
+            {form}
         </div>
 
     );
