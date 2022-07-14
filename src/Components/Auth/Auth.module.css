@@ -19,11 +19,16 @@
 .button:active {
     background-color: #fff;
     color: #D70F64;
+    box-shadow: none;
+    outline: none
 }
 
 .button:focus {
     background-color: #fff;
     color: #D70F64;
+    box-shadow: none;
+    outline: none;
+
 }
 
 .label {

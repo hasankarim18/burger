@@ -33,7 +33,8 @@ export class Checkout extends Component {
         isLoading: false,
         isModalOpen: false,
         modalMsg: '',
-        orderSuccess: false
+        orderSuccess: false,
+        alertColor: ''
     }
 
 
@@ -57,7 +58,8 @@ export class Checkout extends Component {
                         isLoading: false,
                         isModalOpen: true,
                         modalMsg: 'Order placed successfully',
-                        orderSuccess: true
+                        orderSuccess: true,
+                        alertColor: 'success'
                     })
                 }
 
@@ -68,7 +70,8 @@ export class Checkout extends Component {
                     isLoading: false,
                     isModalOpen: true,
                     modalMsg: err.message,
-                    orderSuccess: false
+                    orderSuccess: false,
+                    alertColor: 'warning'
                 })
             })
     }
@@ -159,7 +162,7 @@ export class Checkout extends Component {
 
                 <Modal isOpen={this.state.isModalOpen} >
                     <ModalBody>
-                        <Alert> <p>{this.state.modalMsg}</p> </Alert>
+                        <Alert color={this.state.alertColor} > <p>{this.state.modalMsg}</p> </Alert>
                     </ModalBody>
                     <ModalFooter>
                         {
