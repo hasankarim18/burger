@@ -14,6 +14,7 @@ import './Navigation.css'
 import Logo from '../../assets/burgert.png'
 import { connect } from 'react-redux'
 
+
 const mapStateToProps = state => {
     return {
         token: state.token,
@@ -60,7 +61,7 @@ class Navigation extends React.Component {
                     <NavLink to="/checkout">Checkout</NavLink>
                 </NavItem>
                 <NavItem className='header_link'>
-                    <NavLink to="/auth">Log out</NavLink>
+                    <NavLink to="/logout">Log out</NavLink>
                 </NavItem>
             </Nav>
         }

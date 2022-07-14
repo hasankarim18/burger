@@ -11,6 +11,8 @@ import { authCheck } from '../redux/authActionCreators'
 
 import { useNavigate } from "react-router-dom";
 
+import Logout from './Auth/Logout'
+
 const mapStateToProps = state => {
 
     return {
@@ -40,6 +42,7 @@ const Main = (props) => {
             <Route path="/orders" element={<Orders />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     }

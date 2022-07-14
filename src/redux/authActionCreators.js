@@ -33,7 +33,7 @@ export const auth = (email, password, mode) => dispatch => {
     axios.post(auth_url + api_key, authData)
         .then(res => {
             if (res.status === 200) {
-                console.log(res)
+
                 dispatch(authSuccess(res.data.idToken, res.data.localId))
                 localStorage.setItem('token', res.data.idToken)
                 localStorage.setItem('userId', res.data.localId)
@@ -47,16 +47,27 @@ export const auth = (email, password, mode) => dispatch => {
 }
 
 
+export const logout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('userId')
+    localStorage.removeItem('expirationTime')
+    return {
+        type: actionTypes.AUTH_LOGOUT
+    }
+}
+
 
 export const authCheck = () => dispatch => {
     const token = localStorage.getItem('token')
 
     if (!token) {
         // logout
+        dispatch(logout())
     } else {
         const expirationTime = new Date(localStorage.getItem('expirationTime'))
         if (expirationTime <= new Date()) {
             // logout 
+            dispatch(logout())
         } else {
             const userId = localStorage.getItem('userId')
             // keep login 

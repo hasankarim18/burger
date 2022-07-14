@@ -78,7 +78,7 @@ const Auth = (props) => {
         },
         validate,
         onSubmit: values => {
-            console.log(values)
+
             props.auth(values.email, values.password, mode)
         }
     })
