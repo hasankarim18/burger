@@ -1,0 +1,34 @@
+.button {
+    padding: 10px 35px;
+    background-color: #D70F64;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    border: 2px solid #D70F64;
+    transition: 0.3s ease-in-out;
+    box-shadow: none;
+    outline: none;
+}
+
+.button:hover {
+    background-color: #fff;
+    color: #D70F64;
+}
+
+.button:active {
+    background-color: #fff;
+    color: #D70F64;
+}
+
+.button:focus {
+    background-color: #fff;
+    color: #D70F64;
+}
+
+.label {
+    font-size: 16px;
+    font-weight: 700;
+    color: #D70F64;
+    cursor: pointer;
+}

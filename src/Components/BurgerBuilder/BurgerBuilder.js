@@ -49,7 +49,7 @@ export class BurgerBuilder extends Component {
 
     addIngredientHandler = type => {
         this.props.addIngreDient(type)
-        console.log(this.props.ingredients)
+
 
         this.props.updatePurchasable(this.props.ingredients)
     }

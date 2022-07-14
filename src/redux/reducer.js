@@ -16,7 +16,10 @@ const initialState = {
     ],
     totalPrice: 80,
     purchasable: false,
-    prices: INGREDIENT_PRICES
+    prices: INGREDIENT_PRICES,
+    orderList: [],
+    orderLoadingFailed: false,
+    orderLoading: true
 }
 
 export const Reducer = (state = initialState, action) => {
@@ -65,7 +68,41 @@ export const Reducer = (state = initialState, action) => {
                 ...state,
                 purchasable: sum > 0
             }
+        case actionTypes.RESET_INGREDIENTS:
+            return {
+                ...state,
+                ingredients: [
+                    { type: 'salad', amount: 0 },
+                    { type: 'meat', amount: 0 },
+                    { type: 'cheese', amount: 0 }
+                ],
+                totalPrice: 80,
+                purchasable: false,
+                prices: INGREDIENT_PRICES
+            }
 
+        case actionTypes.LOAD_ORDERS:
+            const orders = []
+
+            for (let key in action.payload) {
+                orders.push({
+                    ...action.payload[key],
+                    id: key
+                })
+            }
+
+            return {
+                ...state,
+                orderList: orders,
+                orderLoadingFailed: false,
+                orderLoading: false
+            }
+        case actionTypes.ORDER_LOAD_FAILED:
+            return {
+                ...state,
+                orderLoadingFailed: true,
+                orderLoading: false
+            }
 
         default:
             return state

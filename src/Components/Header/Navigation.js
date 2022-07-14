@@ -35,6 +35,7 @@ class Navigation extends React.Component {
                         backgroundColor: '#D70F64',
                         color: '#fff'
                     }}
+                    dark
                     className={`navigation container`}
                     expand="md">
                     <NavbarBrand href="/">
@@ -51,6 +52,9 @@ class Navigation extends React.Component {
                             </NavItem>
                             <NavItem className='header_link'>
                                 <NavLink to="/checkout">Checkout</NavLink>
+                            </NavItem>
+                            <NavItem className='header_link'>
+                                <NavLink to="/auth">Login</NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>
