@@ -7,6 +7,7 @@ import Checkout from './Orders/Checkout/Checkout'
 import Auth from './Auth/Auth'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { authCheck } from '../redux/authActionCreators'
 
 import { useNavigate } from "react-router-dom";
 
@@ -14,6 +15,12 @@ const mapStateToProps = state => {
 
     return {
         token: state.token
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        authCheck: () => dispatch(authCheck())
     }
 }
 
@@ -37,6 +44,10 @@ const Main = (props) => {
         </Routes>
     }
 
+    useEffect(() => {
+        props.authCheck()
+    }, [])
+
     return (
         <React.Fragment>
             <Header />
@@ -49,4 +60,4 @@ const Main = (props) => {
     )
 }
 
-export default connect(mapStateToProps)(Main)
+export default connect(mapStateToProps, mapDispatchToProps)(Main)

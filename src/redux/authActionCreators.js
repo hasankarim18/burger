@@ -7,7 +7,8 @@ export const authSuccess = (token, userId) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
         payload: {
-            token: token
+            token: token,
+            userId: userId
         }
     }
 }
@@ -34,7 +35,33 @@ export const auth = (email, password, mode) => dispatch => {
             if (res.status === 200) {
                 console.log(res)
                 dispatch(authSuccess(res.data.idToken, res.data.localId))
+                localStorage.setItem('token', res.data.idToken)
+                localStorage.setItem('userId', res.data.localId)
+
+                const expirationTime = new Date((new Date().getTime() + res.data.expiresIn * 1000))
+
+                localStorage.setItem('expirationTime', expirationTime)
             }
         })
         .catch(err => console.log(err))
+}
+
+
+
+export const authCheck = () => dispatch => {
+    const token = localStorage.getItem('token')
+
+    if (!token) {
+        // logout
+    } else {
+        const expirationTime = new Date(localStorage.getItem('expirationTime'))
+        if (expirationTime <= new Date()) {
+            // logout 
+        } else {
+            const userId = localStorage.getItem('userId')
+            // keep login 
+            dispatch(authSuccess(token, userId))
+        }
+    }
+
 }
