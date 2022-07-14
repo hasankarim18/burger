@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes'
 import axios from 'axios'
+import { url } from './url'
 
 
 
@@ -27,11 +28,7 @@ export const updatePurchasable = () => {
 }
 
 
-export const resetIngredients = () => {
-    return {
-        type: actionTypes.RESET_INGREDIENTS
-    }
-}
+
 
 export const loadOrders = (order) => {
     return {
@@ -56,13 +53,58 @@ export const fetchOrders = () => dispatch => {
 
     dispatch(orderLoading())
 
-    axios.get('your data base link')
+    axios.get(url + '/burger.json')
         .then(res => res.data)
         .then(data => {
+
             dispatch(loadOrders(data))
         })
         .catch(err => {
             console.log('orderloading failed')
             dispatch(orderLoadFailed())
+        })
+}
+
+
+const placeOrder = () => {
+    return {
+        type: actionTypes.PLACE_ORDER,
+    }
+}
+
+const placeingOrder = () => {
+    return {
+        type: actionTypes.PLACING_ORDER
+    }
+}
+
+const placeOrderFailed = () => {
+    return {
+        type: actionTypes.PLACE_ORDER_FAILED
+    }
+}
+
+export const resetIngredients = () => {
+    return {
+        type: actionTypes.RESET_INGREDIENTS
+    }
+}
+
+export const submitOrderTo = (order) => dispatch => {
+    dispatch(placeingOrder())
+
+    axios.post(url + '/burger.json', order)
+        .then(res => {
+            console.log(res)
+            if (res.status === 200) {
+                dispatch(placeOrder())
+                dispatch(resetIngredients())
+            } else {
+                dispatch(placeOrderFailed())
+            }
+        })
+        .catch(err => {
+
+            dispatch(placeOrderFailed())
         })
 }

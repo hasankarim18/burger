@@ -19,7 +19,11 @@ const initialState = {
     prices: INGREDIENT_PRICES,
     orderList: [],
     orderLoadingFailed: false,
-    orderLoading: true
+    orderLoading: true,
+    orderPlacing: true,
+    placeOrder: false,
+    placeOrderFailed: false
+
 }
 
 export const Reducer = (state = initialState, action) => {
@@ -103,7 +107,30 @@ export const Reducer = (state = initialState, action) => {
                 orderLoadingFailed: true,
                 orderLoading: false
             }
+        // place order
 
+        case actionTypes.PLACE_ORDER:
+
+            return {
+                ...state,
+                orderPlacing: false,
+                placeOrder: true,
+                placeOrderFailed: false
+            }
+        case actionTypes.PLACING_ORDER:
+            return {
+                ...state,
+                orderPlacing: true,
+                placeOrder: false,
+                placeOrderFailed: false
+            }
+        case actionTypes.PLACE_ORDER_FAILED:
+            return {
+                ...state,
+                orderPlacing: false,
+                placeOrder: false,
+                placeOrderFailed: true
+            }
         default:
             return state
     }

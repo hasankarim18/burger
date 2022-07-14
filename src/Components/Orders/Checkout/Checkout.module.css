@@ -1,0 +1,22 @@
+.checkout label {
+    font-size: 18px;
+    font-weight: 700;
+    color: #D70F64 !important;
+    cursor: pointer;
+}
+
+.totalPrice {
+    border: 1px solid grey;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px #D70F64;
+    margin-bottom: 30px;
+}
+
+
+.checkout form {
+    border: 1px solid grey;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px #D70F64;
+}

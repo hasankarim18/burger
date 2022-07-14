@@ -1,192 +1,167 @@
-import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useFormik } from 'formik';
 import { connect } from 'react-redux'
-import axios from 'axios'
+import classes from './Checkout.module.css'
+import axios from 'axios';
+import { Alert, Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import Spinner from '../../Spinner/Spinner'
-import { Alert, Modal, ModalBody, ModalFooter } from 'reactstrap'
-import { resetIngredients } from '../../../redux/actionCreators'
+import { submitOrderTo } from '../../../redux/actionCreators';
+import { NavLink } from 'react-router-dom'
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredients,
         totalPrice: state.totalPrice,
+        ingredients: state.ingredients,
         purchasable: state.purchasable,
-
+        orderPlacing: state.orderPlacing,
+        placeOrder: state.placeOrder,
+        placeOrderFailed: state.placeOrderFailed
     }
 }
 
 const mapDisPatchToProps = dispatch => {
     return {
-        resetIngredients: () => dispatch(resetIngredients())
+        submitOrderTo: (order) => dispatch(submitOrderTo(order))
     }
 }
 
+const Checkout = (props) => {
 
-export class Checkout extends Component {
+    const [modal, setModal] = useState(false)
+    const [isErro, setIsError] = useState(false)
 
-    state = {
-        values: {
-            deliveryAddress: '',
-            phone: '',
-            paymentType: 'Cash On Delivery'
-        },
-        isLoading: false,
-        isModalOpen: false,
-        modalMsg: '',
-        orderSuccess: false,
-        alertColor: ''
-    }
-
-
-    onSubmitHandler = (event) => {
-        this.setState({
-            isLoading: true
-        })
-        event.preventDefault()
-        const order = {
-            ingredients: this.props.ingredients,
-            customerInfo: this.state.values,
-            price: this.props.totalPrice,
-            orderTime: new Date().toISOString()
+    const validate = values => {
+        const errors = {}
+        if (!values.deliveryAddress) {
+            errors.deliveryAddress = 'Delivery Address Required'
+        } else if (values.deliveryAddress.length < 20) {
+            errors.deliveryAddress = 'Delivery address cant be less than 20 charecter'
+        } else if (!values.phoneNumber) {
+            errors.phoneNumber = 'Required'
         }
 
-        axios.post('your data base link', order)
-            .then(res => {
-                if (res.status === 200) {
+        if (JSON.stringify(errors) === '{}') {
+            setIsError(true)
+        } else {
+            setIsError(false)
+        }
 
-                    this.setState({
-                        isLoading: false,
-                        isModalOpen: true,
-                        modalMsg: 'Order placed successfully',
-                        orderSuccess: true,
-                        alertColor: 'success'
-                    })
-                }
-
-                this.props.resetIngredients()
-            })
-            .catch(err => {
-                this.setState({
-                    isLoading: false,
-                    isModalOpen: true,
-                    modalMsg: err.message,
-                    orderSuccess: false,
-                    alertColor: 'warning'
-                })
-            })
+        return errors
     }
 
-    onInputChangeHandler = event => {
-        this.setState({
-            values: {
-                ...this.state.values,
-                [event.target.name]: event.target.value
+
+
+
+    const payForm = useFormik({
+        initialValues: {
+            deliveryAddress: '',
+            phoneNumber: '',
+            paymentType: 'Cash On Delivery'
+        },
+        validate,
+        onSubmit: values => {
+            const order = {
+                ingredients: props.ingredients,
+                customerInfo: values,
+                price: props.totalPrice,
+                orderTime: new Date().toISOString()
             }
-        })
+
+            props.submitOrderTo(order)
+        }
+    })
+
+    const toggleModal = () => {
+        setModal(!modal)
     }
 
-    toggleModal = () => {
-        this.setState({
-            isModalOpen: !this.state.isModalOpen
-        })
+    // console.log(props)
+
+    let orderPlacingInfo = null
+
+    if (props.orderPlacing) {
+        orderPlacingInfo = <Spinner />
+    } else if (props.placeOrder) {
+        orderPlacingInfo = <Alert color="success"> Oreder Places successfully </Alert>
+    } else if (props.placeOrderFailed) {
+        orderPlacingInfo = <Alert color='warning' >Something went wrong! please try againg</Alert>
     }
 
-    render() {
+    return (
+        <div className="container pt-5">
 
-        let form = <form
-            style={{
-                border: "1px solid grey",
-                boxShadow: "1px 1px #888888",
-                padding: '20px',
-                borderRadius: "12px"
-            }}
-            onSubmit={this.onSubmitHandler} >
-            <textarea
-                name="deliveryAddress"
-                value={this.state.values.deliveryAddress}
-                className="form-control"
-                placeholder='Delivery Address'
-                onChange={this.onInputChangeHandler}
-            ></textarea>
-            <br />
-            <input
-                type="number"
-                name='phone'
-                className="form-control"
-                value={this.state.values.phone}
-                placeholder="Phone number"
-                onChange={this.onInputChangeHandler}
-            />
-            <br />
-            <select
-                onChange={this.onInputChangeHandler}
-                name='paymentType'
-                className="form-control"
-                value={this.state.values.paymentType}
-            >
-                <option value="Cash On Delivery" > Cash on delivery </option>
-                <option value="Bkash" >Bkash</option>
-            </select>
-            <br />
-            <div className="text-end" >
-                <button
-                    disabled={!this.props.purchasable}
-                    type='submit'
-                    style={{ backgroundColor: '#D70F64', color: '#fff' }} className="btn m-1">
-                    Place Order
-                </button>
-                <NavLink to="/"
-                    className="btn btn-secondary m-1">
-                    Cancel
-                </NavLink>
+            <div className="row justify-content-center">
+                <div className={`col-md-8 col-sm-10 col-12 ${classes.totalPrice}`}  >
+                    <h5>Payable amount: {props.totalPrice}</h5>
+                </div>
+                <div className={`${classes.checkout} p-0 text-start col-md-8 col-sm-10 col-12`} >
+
+                    <form onSubmit={payForm.handleSubmit}>
+                        <label htmlFor='deliveryAddress' className="text-bold" >Delivery Address</label>
+                        <textarea
+                            id="deliveryAddress"
+                            name="deliveryAddress"
+                            value={payForm.values.deliveryAddress}
+                            className="form-control"
+                            placeholder='Delivery Address'
+                            onChange={payForm.handleChange}
+                        ></textarea>
+                        {payForm.errors.deliveryAddress ? <Alert color="warning"> {payForm.errors.deliveryAddress} </Alert> : ''}
+                        <br />
+                        <label htmlFor='phone'>Phone Number</label>
+                        <input
+                            className="form-control"
+                            name='phoneNumber'
+                            placeholder='Phone Number'
+                            onChange={payForm.handleChange}
+                            value={payForm.values.phoneNumber}
+                            id="phone"
+                            type="number" />
+                        {payForm.errors.phoneNumber ? <Alert color="warning"> {payForm.errors.phoneNumber} </Alert> : ''}
+                        <hr />
+                        <label htmlFor='paymentType'>Payment Type</label>
+                        <select
+                            className="form-control"
+                            type="select"
+                            name='paymentType'
+                            id="paymentType"
+                            onChange={payForm.handleChange}
+                            value={payForm.values.paymentType}
+                        >
+                            <option value='Cash On Delivery' >Cash On Delivery</option>
+                            <option value='Bkash' >Bkash</option>
+                        </select>
+                        <br />
+                        <div className="text-end" >
+                            <button
+                                disabled={!isErro}
+                                type="submit"
+                                onClick={toggleModal}
+                                className="btn btn-success"  > Place Order </button>
+                        </div>
+                    </form>
+                </div>
             </div>
+            <Modal isOpen={modal} >
+                <ModalBody>
+                    {orderPlacingInfo}
+                </ModalBody>
+                <ModalFooter>
+                    {
+                        props.placeOrder ?
+                            <NavLink className="btn btn-success" to="/" >
+                                Order Again
+                            </NavLink>
+                            : ''
+                    }
+                    {
+                        props.placeOrderFailed ? <Button onClick={toggleModal} > Try Again </Button> : ''
+                    }
 
-        </form>
-
-
-
-
-        return (
-            <div className="p-md-5 pt-5 p-2" >
-                <h4 style={{
-                    border: "1px solid grey",
-                    boxShadow: "1px 1px #888888",
-                    padding: '20px',
-                    borderRadius: "12px"
-                }}
-                >Payment: {this.props.totalPrice}/- BDT </h4>
-
-                {
-                    this.state.isLoading ? <Spinner /> : form
-                }
-
-                <Modal isOpen={this.state.isModalOpen} >
-                    <ModalBody>
-                        <Alert color={this.state.alertColor} > <p>{this.state.modalMsg}</p> </Alert>
-                    </ModalBody>
-                    <ModalFooter>
-                        {
-                            this.state.orderSuccess === false ?
-                                <button className="btn btn-warning" onClick={this.toggleModal} >
-                                    Try Again
-                                </button>
-                                : ''
-                        }
-
-                        {
-                            this.state.orderSuccess ?
-                                <NavLink className="btn btn-success" to="/" >
-                                    Order Again
-                                </NavLink>
-                                : ''
-                        }
-
-                    </ModalFooter>
-                </Modal>
-
-            </div>
-        )
-    }
+                </ModalFooter>
+            </Modal>
+        </div>
+    )
 }
 
 export default connect(mapStateToProps, mapDisPatchToProps)(Checkout)
