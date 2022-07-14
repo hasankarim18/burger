@@ -12,6 +12,16 @@ import { NavLink } from 'react-router-dom'
 
 import './Navigation.css'
 import Logo from '../../assets/burgert.png'
+import { connect } from 'react-redux'
+
+const mapStateToProps = state => {
+    return {
+        token: state.token,
+        userId: state.userId
+    }
+}
+
+
 
 class Navigation extends React.Component {
     constructor(props) {
@@ -27,7 +37,35 @@ class Navigation extends React.Component {
             isOpen: !this.state.isOpen
         });
     }
+
     render() {
+
+        let links = null
+
+        if (this.props.token === null) {
+            links = <Nav className="mr-auto" navbar>
+                <NavItem className='header_link'>
+                    <NavLink to="/auth">Log in</NavLink>
+                </NavItem>
+            </Nav>
+        } else {
+            links = <Nav className="mr-auto" navbar>
+                <NavItem className='header_link' >
+                    <NavLink to="/">Home</NavLink>
+                </NavItem>
+                <NavItem className='header_link'>
+                    <NavLink to="/orders">Orders</NavLink>
+                </NavItem>
+                <NavItem className='header_link'>
+                    <NavLink to="/checkout">Checkout</NavLink>
+                </NavItem>
+                <NavItem className='header_link'>
+                    <NavLink to="/auth">Log out</NavLink>
+                </NavItem>
+            </Nav>
+        }
+
+
         return (
             <div className="" style={{ backgroundColor: '#D70F64' }} >
                 <Navbar
@@ -43,20 +81,7 @@ class Navigation extends React.Component {
                     </NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse className="justify-content-end" isOpen={this.state.isOpen} navbar>
-                        <Nav className="mr-auto" navbar>
-                            <NavItem className='header_link' >
-                                <NavLink to="/">Home</NavLink>
-                            </NavItem>
-                            <NavItem className='header_link'>
-                                <NavLink to="/orders">Orders</NavLink>
-                            </NavItem>
-                            <NavItem className='header_link'>
-                                <NavLink to="/checkout">Checkout</NavLink>
-                            </NavItem>
-                            <NavItem className='header_link'>
-                                <NavLink to="/auth">Login</NavLink>
-                            </NavItem>
-                        </Nav>
+                        {links}
                     </Collapse>
                 </Navbar>
             </div>
@@ -64,4 +89,4 @@ class Navigation extends React.Component {
     }
 }
 
-export default Navigation
+export default connect(mapStateToProps)(Navigation)

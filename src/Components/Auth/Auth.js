@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import classes from './Auth.module.css'
 import { Label, Alert } from 'reactstrap';
 import { auth } from '../../redux/authActionCreators';
 import { connect } from 'react-redux'
+import { useNavigate } from "react-router-dom";
+
+const mapStateToProps = state => {
+    return {
+        token: state.token
+    }
+}
 
 
 const mapDispatchToProps = dispatch => {
@@ -22,7 +29,15 @@ const Auth = (props) => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const [mode, setMode] = useState('SignUp')
 
+    let navigate = useNavigate()
 
+    useEffect(() => {
+
+        if (props.token) {
+            navigate("/", { replace: true })
+        }
+
+    }, [props.token])
 
     const showPasswordHandler = () => {
         setShowPassword(!showPassword)
@@ -171,4 +186,4 @@ const Auth = (props) => {
     );
 };
 
-export default connect(null, mapDispatchToProps)(Auth)
+export default connect(mapStateToProps, mapDispatchToProps)(Auth)

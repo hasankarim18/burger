@@ -22,7 +22,9 @@ const initialState = {
     orderLoading: true,
     orderPlacing: true,
     placeOrder: false,
-    placeOrderFailed: false
+    placeOrderFailed: false,
+    token: null,
+    userId: null
 
 }
 
@@ -130,6 +132,12 @@ export const Reducer = (state = initialState, action) => {
                 orderPlacing: false,
                 placeOrder: false,
                 placeOrderFailed: true
+            }
+        case actionTypes.AUTH_SUCCESS:
+            return {
+                ...state,
+                userId: action.payload.userId,
+                token: action.payload.token
             }
         default:
             return state
