@@ -97,10 +97,17 @@ const Auth = (props) => {
     }
 
     let form = null
+    let err = null
+
+    if (props.authFailedMsg) {
+        err = <Alert color="warning" > {props.authFailedMsg} </Alert>
+    }
 
     if (props.authLoading) {
         form = <Spinner />
-    } else {
+    }
+
+    else {
         form = <div className="col-12 col-sm-10 col-md-7 pt-5 text-start" >
             <div>
                 <button onClick={modeChange} className={`${classes.signup}`} >
@@ -188,6 +195,7 @@ const Auth = (props) => {
 
     return (
         <div className="row justify-content-center">
+            {err}
             {form}
         </div>
 

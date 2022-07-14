@@ -14,11 +14,11 @@ const Logout = (props) => {
     let navigate = useNavigate()
 
     useEffect(() => {
-        // props.logout()
-        //  navigate('/')
+        props.logout()
+        navigate('/')
     }, [])
 
-    return props.logout()
+    return
 }
 
 export default connect(null, mapDispatchToProps)(Logout)

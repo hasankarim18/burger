@@ -34,22 +34,30 @@ export const Reducer = (state = initialState, action) => {
     // Add ingredients
     const addIngredients = [...state.ingredients]
     switch (action.type) {
+        case actionTypes.AUTH_FAILED:
+            return {
+                ...state,
+                authFailedMsg: action.payload
+            }
         case actionTypes.AUTH_LOADING:
             return {
                 ...state,
-                authLoading: action.payload
+                authLoading: action.payload,
+                authFailedMsg: null
             }
         case actionTypes.AUTH_SUCCESS:
             return {
                 ...state,
                 userId: action.payload.userId,
-                token: action.payload.token
+                token: action.payload.token,
+                authFailedMsg: null
             }
         case actionTypes.AUTH_LOGOUT:
             return {
                 ...state,
                 token: null,
-                userId: null
+                userId: null,
+                authFailedMsg: null
             }
         case actionTypes.ADD_INGREDIENT:
             const newPrice = state.totalPrice + state.prices[action.payload]
