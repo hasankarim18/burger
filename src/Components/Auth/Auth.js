@@ -2,7 +2,19 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import classes from './Auth.module.css'
 import { Label, Alert } from 'reactstrap';
-const Auth = () => {
+import { auth } from '../../redux/authActionCreators';
+import { connect } from 'react-redux'
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        auth: (email, password, mode) => dispatch(auth(email, password, mode))
+    }
+}
+
+
+
+const Auth = (props) => {
     // Pass the useFormik() hook initial form values and a submit function that will
     // be called when the form is submitted
 
@@ -31,9 +43,13 @@ const Auth = () => {
             errors.password = 'Required'
         } else if (values.password.length < 6) {
             errors.password = 'Password mush be at least 6 charecter long'
-        } else if (values.password != values.consfirmPassword) {
-            errors.consfirmPassword = 'Password did not match'
+        } else if (mode === 'SignUp') {
+            if (values.password != values.consfirmPassword) {
+                errors.consfirmPassword = 'Password did not match'
+            }
         }
+
+
 
 
         return errors
@@ -48,6 +64,7 @@ const Auth = () => {
         validate,
         onSubmit: values => {
             console.log(values)
+            props.auth(values.email, values.password, mode)
         }
     })
 
@@ -154,4 +171,4 @@ const Auth = () => {
     );
 };
 
-export default Auth
+export default connect(null, mapDispatchToProps)(Auth)

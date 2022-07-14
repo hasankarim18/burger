@@ -16,3 +16,8 @@ export const ORDER_LOADING = 'ORDER_LOADING'
 export const PLACE_ORDER = 'PLACE_ORDER'
 export const PLACING_ORDER = 'PLACING_ORDER'
 export const PLACE_ORDER_FAILED = 'PLACE_ORDER_FAILED'
+
+export const AUTH_SUCCESS = 'AUTH_SUCCESS'
+export const AUTH_FAILED = 'AUTH_FAILED'
+export const AUTH_LOADING = 'AUTH_LOADING'
+export const AUTH_LOGOUT = 'AUTH_LOGOUT'
