@@ -57,9 +57,9 @@ class Navigation extends React.Component {
                 <NavItem className='header_link'>
                     <NavLink to="/orders">Orders</NavLink>
                 </NavItem>
-                <NavItem className='header_link'>
+                {/* <NavItem className='header_link'>
                     <NavLink to="/checkout">Checkout</NavLink>
-                </NavItem>
+                </NavItem> */}
                 <NavItem className='header_link'>
                     <NavLink to="/logout">Log out</NavLink>
                 </NavItem>
