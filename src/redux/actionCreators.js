@@ -49,15 +49,15 @@ const orderLoading = () => {
     }
 }
 
-export const fetchOrders = (token) => dispatch => {
+export const fetchOrders = (token, userId) => dispatch => {
 
     dispatch(orderLoading())
 
     // firebase rule for filtering // different server may have different rule for filtering
 
+    const queryParams = '&orderBy="userId"&equalTo="' + userId + '"'
 
-
-    axios.get(url + '/burger.json?auth=' + token)
+    axios.get(url + '/burger.json?auth=' + token + queryParams)
         .then(res => res.data)
         .then(data => {
 
