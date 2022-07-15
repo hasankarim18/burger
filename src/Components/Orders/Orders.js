@@ -5,17 +5,20 @@ import Order from './order/Order'
 import Spinner from '../Spinner/Spinner'
 import { Alert } from 'reactstrap'
 
+
+
 const mapStateToProps = state => {
     return {
         orderList: state.orderList,
         orderLoadingFailed: state.orderLoadingFailed,
-        orderLoading: state.orderLoading
+        orderLoading: state.orderLoading,
+        token: state.token
     }
 }
 
 const mapDisPatchToProps = dispatch => {
     return {
-        fetchOrders: () => dispatch(fetchOrders())
+        fetchOrders: (token) => dispatch(fetchOrders(token))
     }
 }
 
@@ -24,7 +27,8 @@ const mapDisPatchToProps = dispatch => {
 export class Orders extends Component {
 
     componentDidMount() {
-        this.props.fetchOrders()
+        //console.log(this.props.token)
+        this.props.fetchOrders(this.props.token)
 
 
 

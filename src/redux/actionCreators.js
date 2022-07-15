@@ -49,11 +49,11 @@ const orderLoading = () => {
     }
 }
 
-export const fetchOrders = () => dispatch => {
+export const fetchOrders = (token) => dispatch => {
 
     dispatch(orderLoading())
 
-    axios.get(url + '/burger.json')
+    axios.get(url + '/burger.json?auth=' + token)
         .then(res => res.data)
         .then(data => {
 
