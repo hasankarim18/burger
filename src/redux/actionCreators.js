@@ -53,6 +53,10 @@ export const fetchOrders = (token) => dispatch => {
 
     dispatch(orderLoading())
 
+    // firebase rule for filtering // different server may have different rule for filtering
+
+
+
     axios.get(url + '/burger.json?auth=' + token)
         .then(res => res.data)
         .then(data => {
@@ -90,10 +94,10 @@ export const resetIngredients = () => {
     }
 }
 
-export const submitOrderTo = (order) => dispatch => {
+export const submitOrderTo = (order, token) => dispatch => {
     dispatch(placeingOrder())
 
-    axios.post(url + '/burger.json', order)
+    axios.post(url + '/burger.json?auth=' + token, order)
         .then(res => {
             console.log(res)
             if (res.status === 200) {

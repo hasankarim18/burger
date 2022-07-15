@@ -15,13 +15,15 @@ const mapStateToProps = state => {
         purchasable: state.purchasable,
         orderPlacing: state.orderPlacing,
         placeOrder: state.placeOrder,
-        placeOrderFailed: state.placeOrderFailed
+        placeOrderFailed: state.placeOrderFailed,
+        userId: state.userId,
+        token: state.token
     }
 }
 
 const mapDisPatchToProps = dispatch => {
     return {
-        submitOrderTo: (order) => dispatch(submitOrderTo(order))
+        submitOrderTo: (order, token) => dispatch(submitOrderTo(order, token))
     }
 }
 
@@ -64,10 +66,11 @@ const Checkout = (props) => {
                 ingredients: props.ingredients,
                 customerInfo: values,
                 price: props.totalPrice,
-                orderTime: new Date().toISOString()
+                orderTime: new Date().toISOString(),
+                userId: props.userId
             }
 
-            props.submitOrderTo(order)
+            props.submitOrderTo(order, props.token)
         }
     })
 
