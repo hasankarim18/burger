@@ -43,7 +43,7 @@ const Main = (props) => {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/logout" element={<Logout />} />
-            {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+            <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     }
 
