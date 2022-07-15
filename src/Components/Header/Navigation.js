@@ -77,9 +77,9 @@ class Navigation extends React.Component {
                     dark
                     className={`navigation container`}
                     expand="md">
-                    <NavbarBrand href="/">
+                    <NavLink className="navbar-brand" to="/">
                         <img width="150px" src={Logo} alt="Burger Builder" />
-                    </NavbarBrand>
+                    </NavLink>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse className="justify-content-end" isOpen={this.state.isOpen} navbar>
                         {links}
